@@ -1,11 +1,19 @@
-import { createServer } from 'http'
+/*import { createServer } from 'http'
 
-// decodificar os dados vindos por POST
-import { parse } from 'querystring'
+// Decodificar os dados vindos por POST
+import { parse } from 'querystring'*/
+
+import express, { response } from 'express'
 
 // ---------------------- Server and routes ----------------------
+// ---------------------- Com Express ----------------------
+const server = express()
 
-const server = createServer((request, response) => {
+server.get('/status', (request, response) => {getStatus(request, response)})
+server.post('/authenticate',  (request, response) => {getAuthentication(request, response)})
+
+// ---------------------- Node puro ----------------------
+/*const server = createServer((request, response) => {
   const routes = {
 
     '/status': () => { getStatus(request, response) },
@@ -19,7 +27,7 @@ const server = createServer((request, response) => {
   }
 
   routes[request.url]()
-})
+})*/
 
 // Configuração de interface (porta) para alterar configurações via 
 // variável de ambiente. Caso exista use senão porta default 8080.
@@ -39,7 +47,11 @@ server.listen(8080, '127.0.0.1', () => {
 
 // Retorna JSON
 function getStatus(request, response) {
-  response.writeHead(200, {
+  response.send({
+    status:'OK'
+  })
+
+  /*response.writeHead(200, {
     'Content-Type': 'application/json'
   })
 
@@ -48,12 +60,19 @@ function getStatus(request, response) {
       status: 'Status'
     })
   )
-  response.end()
+  response.end()*/
 }
 
 // Realiza a autenticação de um usuário.
 function getAuthentication(request, response) {
-  let data = ''
+  console.log(
+    'E-mail', request.body.email,
+    'Senha', request.body.password
+  )
+
+  response.send()
+
+  /*let data = ''
 
   // Patterns de evento.
   // Vai ler o buffer aos poucos.
@@ -67,7 +86,7 @@ function getAuthentication(request, response) {
     // AQUI ENTRA A AUTENTICAÇÃO NO BANCO
 
     response.end()
-  })
+  })*/
 }
 
 function invalidRoutes(request, response) {
