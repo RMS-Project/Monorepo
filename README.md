@@ -48,6 +48,19 @@ pnpm --filter @api_graphql/server run start
 ```
 -------------------------------------------------------------------------------
 
+**Instalação do Express**
+```
+pnpm i express --filter @api_graphql/server
+```
+
+**Lidar com a politica CORS**
+<p>A politica cors não permite que aplicações externas acesse o servidor.</p>
+<p>Desta forma é necessário adicionar uma permissão para que aplicações externas possam acessar o servidor.</>
+```
+pnpm i cors --filter @api_graphql/server
+```
+-------------------------------------------------------------------------------
+
 <h2>React package</h2>
 
 **React install**

@@ -14,9 +14,9 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     // Evento padrão.
     event.preventDefault()
-    fetch('http://loclahost:8080/authenticate', {
+    fetch('http://localhost:8080/authenticate', {
       method: 'POST',
-      header: {
+      headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -25,8 +25,9 @@ export default function SignIn() {
       })
     })
       .then((response) => response.json())
-      .then(() => {
-        console.log('Success!')
+      .then((data) => {
+        console.log(email, password)
+        console.log('Success!', data)
       })
   }
 
@@ -49,7 +50,7 @@ export default function SignIn() {
             className="App-input" 
             id="email"
             type="email" 
-            inputmode="email" 
+            inputMode="email" 
             autocomplete="username"
 
             onChange={handleEmailChange}
@@ -63,7 +64,7 @@ export default function SignIn() {
             className="App-input" 
             id="password"
             type="password" 
-            inputmode="password"
+            inputMode="password"
             autocomplete="current-password"
           
             onChange={handlePasswordChange}

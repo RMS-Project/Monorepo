@@ -1,33 +1,25 @@
-/*import { createServer } from 'http'
-
-// Decodificar os dados vindos por POST
-import { parse } from 'querystring'*/
-
 import express, { response } from 'express'
+import cors from 'cors'
 
 // ---------------------- Server and routes ----------------------
-// ---------------------- Com Express ----------------------
 const server = express()
 
 server.get('/status', (request, response) => {getStatus(request, response)})
-server.post('/authenticate',  (request, response) => {getAuthentication(request, response)})
 
-// ---------------------- Node puro ----------------------
-/*const server = createServer((request, response) => {
-  const routes = {
+// Habilitar cors para a requisição do formulário. 
+const enableCors = cors({origin: 'http://localhost:3000'})
 
-    '/status': () => { getStatus(request, response) },
+// Antes de realizar uma requisição POST a aplicação executa uma requisição OPTIONS.
+// Desta forma é necessário adiciona-la na restrição do CORS
 
-    '/authenticate': () => { getAuthentication(request, response) },
-  }
-
-  if(!routes[request.url]) {
-    invalidRoutes(request, response)
-    return
-  }
-
-  routes[request.url]()
-})*/
+server
+  .options('/authenticate', enableCors)
+  .post(
+    '/authenticate',
+    enableCors,
+    express.json(),
+    (request, response) => {getAuthentication(request, response)}
+  )
 
 // Configuração de interface (porta) para alterar configurações via 
 // variável de ambiente. Caso exista use senão porta default 8080.
@@ -50,17 +42,6 @@ function getStatus(request, response) {
   response.send({
     status:'OK'
   })
-
-  /*response.writeHead(200, {
-    'Content-Type': 'application/json'
-  })
-
-  response.write(
-    JSON.stringify({
-      status: 'Status'
-    })
-  )
-  response.end()*/
 }
 
 // Realiza a autenticação de um usuário.
@@ -70,23 +51,9 @@ function getAuthentication(request, response) {
     'Senha', request.body.password
   )
 
-  response.send()
-
-  /*let data = ''
-
-  // Patterns de evento.
-  // Vai ler o buffer aos poucos.
-  request.on('data', (chunk) => {
-    data += chunk
+  response.send({
+    OK: true
   })
-
-  request.on('end',() => {
-    let params = parse(data)
-
-    // AQUI ENTRA A AUTENTICAÇÃO NO BANCO
-
-    response.end()
-  })*/
 }
 
 function invalidRoutes(request, response) {
