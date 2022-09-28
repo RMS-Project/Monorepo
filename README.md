@@ -24,7 +24,7 @@ pnpm-workspaces.yaml
 
 **Escreva no arquivo:**
 ```
-package:
+packages:
   - 'packages/**'
 ```
 Note: Vai realizar a inicialização de todos os pacotes contidos dentro da pasta "package"
